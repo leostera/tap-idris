@@ -45,6 +45,7 @@ This is a list of things I'd like the TAP producer to eventually produce the
 following parts of a typical TAP output:
 
 - [X] `TAP version 13`
+- [ ] `# Description`
 - [X] `1..N`
 - [X] `ok 1`
 - [X] `not ok 2`
