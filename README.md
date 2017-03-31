@@ -15,13 +15,13 @@ Run `make` and get it up!
 
 The interface is fairly straightforward, a single function for planning:
 
-```
+```idris
 plan : (suite : String) -> Vect n (IO Bool) -> IO ()
 ```
 
-You can use it like this:
+And you can use it like this:
 
-```
+```idris
 module Your.Module.Tests
 
 import TAP
@@ -34,8 +34,10 @@ myTestSuite = plan "Some description" [
 ]
 ```
 
-And you can add `Your.Module.Tests.myTestSuite` to the list of tests in your
-`*.ipkg` file.
+So it's compliant with the interface of current Idris tests:
+
+1. add `Your.Module.Tests.myTestSuite` to the list of tests in your `*.ipkg` file and
+2. run `idris --testpkg *.ipkg`
 
 ## Specification
 
@@ -49,3 +51,9 @@ following parts of a typical TAP output:
 - [ ] `ok 3 with a test case description`
 - [ ] `ok 4 # TODO with an explanation`
 - [ ] `ok 5 # SKIP with an explanaation`
+
+But it'd also be nice to have a consumer of the output to produce more
+interesting reports, such as:
+
+- [ ] `FAILED tests 2`
+- [ ] `Failed 1/5 tests, 80.00% okay`
