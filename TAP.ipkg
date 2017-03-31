@@ -1,0 +1,12 @@
+package TAP
+
+author = Leandro Ostera <leandro@ostera.io>
+brief = "A TAP Runner"
+bugtracker = https://github.com/ostera/idris-tap/issues
+homepage = https://github.com/ostera/idris-tap
+license = BSD 3-Clause
+readme = ./README.md
+sourceloc  = git://git@github.com:ostera/idris-tap.git
+version = 0.1
+
+modules = TAP
