@@ -13,7 +13,8 @@ runTests k [] = putStrLn ""
 runTests k (x :: xs) = x >>= printResult (show k) >>= \_ => runTests (S k) xs
 
 export
-plan : (suite : String) -> Vect n (IO Bool) -> IO ()
-plan suite tests {n} = do putStrLn "TAP version 13"
-                          putStrLn ("1.." ++ show n)
-                          runTests 1 tests
+plan : (desc : String) -> Vect n (IO Bool) -> IO ()
+plan desc tests {n} = do putStrLn "TAP version 13"
+                         putStrLn ("# " ++ desc)
+                         putStrLn ("1.." ++ show n)
+                         runTests 1 tests

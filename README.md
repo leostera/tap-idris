@@ -45,7 +45,7 @@ This is a list of things I'd like the TAP producer to eventually produce the
 following parts of a typical TAP output:
 
 - [X] `TAP version 13`
-- [ ] `# Description`
+- [X] `# Description`
 - [X] `1..N`
 - [X] `ok 1`
 - [X] `not ok 2`
@@ -56,5 +56,8 @@ following parts of a typical TAP output:
 But it'd also be nice to have a consumer of the output to produce more
 interesting reports, such as:
 
-- [ ] `FAILED tests 2`
+- [ ] `OK tests 4`
+- [ ] `FAILED tests 1`
+- [ ] `SKIPPED tests 0`
+- [ ] `TODO tests 0`
 - [ ] `Failed 1/5 tests, 80.00% okay`
