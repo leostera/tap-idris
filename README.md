@@ -1,2 +1,2 @@
-# 🍻 `TAP`
-> A simple TAP runner
+# `TAP`
+> 🍻 A simple TAP runner for Idris
