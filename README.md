@@ -1,7 +1,7 @@
 # `TAP`
 > 🍻 A simple TAP producer for Idris
 
-`TAP` is a concise, minimalistic, text-based protocol for reporting test
+`TAP` is a terse, minimalistic, text-based protocol for reporting test
 results. Read more at [www.testanything.org](https://testanything.org)
 
 Note: this is just something I hacked together to produce consistent test
@@ -9,7 +9,7 @@ results for a small Lisp parser: [Libra](https://github.com/ostera/libra).
 
 ## Quick Start
 
-Run `make` and get it up!
+Run `make` to build and install.
 
 ## Usage
 
