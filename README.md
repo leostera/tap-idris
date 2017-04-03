@@ -16,7 +16,7 @@ Run `make` and get it up!
 The interface is fairly straightforward, a single function for planning:
 
 ```idris
-plan : (suite : String) -> Vect n (IO Bool) -> IO ()
+plan : (suite : String) -> Vect n (Lazy (IO Bool)) -> IO ()
 ```
 
 And you can use it like this:
@@ -26,11 +26,15 @@ module Your.Module.Tests
 
 import TAP
 
+testCase : Lazy (IO Bool)
+testCase = case compare (1+1) 2 of
+              EQ => pure True
+              LT => pure False
+              GT => pure False
+
 myTestSuite : IO ()
 myTestSuite = plan "Some description" [
-  testCase1,
-  testCase2,
-  testCase3
+  Delay (testCase),
 ]
 ```
 
@@ -38,6 +42,14 @@ So it's compliant with the interface of current Idris tests:
 
 1. add `Your.Module.Tests.myTestSuite` to the list of tests in your `*.ipkg` file and
 2. run `idris --testpkg *.ipkg`
+
+## Why `Lazy (IO Bool)`
+
+I figured that some tests might want to perform some side-effects (reading a
+fixture file sounds like the most likely scenario) and if I didn't include the
+wrapper at this point we'd need to also provide an IO-aware version of `plan`.
+
+Feel encouraged to challenge and teach me why this is the wrong approach.
 
 ## Specification
 
