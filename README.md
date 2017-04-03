@@ -38,10 +38,19 @@ myTestSuite = plan "Some description" [
 ]
 ```
 
-So it's compliant with the interface of current Idris tests:
+So it's _almost_ compliant with the interface of current Idris tests:
 
 1. add `Your.Module.Tests.myTestSuite` to the list of tests in your `*.ipkg` file and
 2. run `idris --testpkg *.ipkg`
+
+And you should see an output like:
+
+```
+ostera λ make test
+TAP version 13
+1..1
+ok 1
+```
 
 ## Why `Lazy (IO Bool)`
 
