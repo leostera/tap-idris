@@ -24,10 +24,16 @@ run : State -> IO (State)
 run state@(MkState Z ok skipped failed) = pure state
 run state@(MkState (S n) _ _ _)  =
   do line <- getLine
-     let [status, id] = split (== ' ') line
-     case status of
-          "ok" => run (record { ok $= (+1), count = n } state)
-          "not ok" => run (record { not_ok $= (+1), count = n } state)
+     let parts = split (== ' ') line
+     case parts of
+          ["ok", _] => run (record { ok $= (+1), count = n } state)
+          ["not, ok", _] => run (record { not_ok $= (+1), count = n } state)
+          _ => pure state
+
+report : State -> IO ()
+report (MkState count ok skipped not_ok) =
+  do putStrLn ("# ok " ++ (show ok))
+     putStrLn ("# not ok " ++ (show not_ok))
 
 main : IO ()
 main = do version <- getLine
@@ -38,4 +44,4 @@ main = do version <- getLine
                Nothing => pure ()
                Just c => case c > -1 of
                  False => pure ()
-                 True => run (MkState (cast c) 0 0 0) >>= \x => pure ()
+                 True => run (MkState (cast c) 0 0 0) >>= report
