@@ -25,6 +25,7 @@ run state@(MkState Z ok skipped failed) = pure state
 run state@(MkState (S n) _ _ _)  =
   do line <- getLine
      let parts = split (== ' ') line
+     putStr "."
      case parts of
           ["ok", _] => run (record { ok $= (+1), count = n } state)
           ["not", "ok", _] => run (record { not_ok $= (+1), count = n } state)
@@ -44,4 +45,6 @@ main = do version <- getLine
                Nothing => pure ()
                Just c => case c > -1 of
                  False => pure ()
-                 True => run (MkState (cast c) 0 0 0) >>= report
+                 True => do results <- run (MkState (cast c) 0 0 0)
+                            putStrLn ""
+                            report results

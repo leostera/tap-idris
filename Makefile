@@ -15,6 +15,7 @@ repl:
 
 install: build
 	$(IDRIS) --install $(LIB_PKG)
+	sudo cp ./draft /usr/local/bin/draft
 
 test: build
 	$(TEST) $(LIB_PKG)
