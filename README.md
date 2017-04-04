@@ -14,7 +14,7 @@ Run `make` to build the library and the conusmer binary and install the library.
 > Note: make sure to put the `draft` binary somewhere in your path if you want
 > to use it!
 
-## Library Usage
+## Using the TAP Producer Library
 
 The interface is fairly straightforward, a single function for planning:
 
@@ -63,7 +63,7 @@ wrapper at this point we'd need to also provide an IO-aware version of `plan`.
 
 Feel encouraged to challenge and teach me why this is the wrong approach.
 
-## Binary Usage
+## Using the `draft` consumer utility
 
 The binary itself _reads_ TAP output, so you can pipe the output of your test
 command into it:
@@ -75,7 +75,7 @@ ostera λ make test | draft
 # not ok 1
 ```
 
-It's extremely simple, but it gives me something to work with for the time being.
+It's extremely simple (and will only work with the output from this producer library) but it gives me something to work with for the time being.
 
 ## Specification
 
