@@ -1,5 +1,5 @@
 # `TAP`
-> 🍻 A simple TAP producer for Idris
+> 🍻 A simple TAP producer for Idris and an even simpler consumer
 
 `TAP` is a terse, minimalistic, text-based protocol for reporting test
 results. Read more at [www.testanything.org](https://testanything.org)
@@ -9,9 +9,12 @@ results for a small Lisp parser: [Libra](https://github.com/ostera/libra).
 
 ## Quick Start
 
-Run `make` to build and install.
+Run `make` to build the library and the conusmer binary and install the library.
 
-## Usage
+> Note: make sure to put the `draft` binary somewhere in your path if you want
+> to use it!
+
+## Library Usage
 
 The interface is fairly straightforward, a single function for planning:
 
@@ -52,13 +55,27 @@ TAP version 13
 ok 1
 ```
 
-## Why `Lazy (IO Bool)`
+### Why `Lazy (IO Bool)`
 
 I figured that some tests might want to perform some side-effects (reading a
 fixture file sounds like the most likely scenario) and if I didn't include the
 wrapper at this point we'd need to also provide an IO-aware version of `plan`.
 
 Feel encouraged to challenge and teach me why this is the wrong approach.
+
+## Binary Usage
+
+The binary itself _reads_ TAP output, so you can pipe the output of your test
+command into it:
+
+```
+ostera λ make test | draft
+...
+# ok 2
+# not ok 1
+```
+
+It's extremely simple, but it gives me something to work with for the time being.
 
 ## Specification
 
@@ -77,8 +94,8 @@ following parts of a typical TAP output:
 But it'd also be nice to have a consumer of the output to produce more
 interesting reports, such as:
 
-- [ ] `OK tests 4`
-- [ ] `FAILED tests 1`
-- [ ] `SKIPPED tests 0`
-- [ ] `TODO tests 0`
-- [ ] `Failed 1/5 tests, 80.00% okay`
+- [x] `# ok 4`
+- [x] `# not ok 1`
+- [ ] `# skipped 0`
+- [ ] `# todo 0`
+- [ ] `# summary 1/5 tests, 80.00% okay`
