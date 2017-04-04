@@ -1,7 +1,7 @@
-package TAP
+package Draft
 
 author = Leandro Ostera <leandro@ostera.io>
-brief = "A TAP Producer Library"
+brief = "A TAP Consumer"
 bugtracker = https://github.com/ostera/idris-tap/issues
 homepage = https://github.com/ostera/idris-tap
 license = BSD 3-Clause
@@ -9,4 +9,7 @@ readme = ./README.md
 sourceloc  = git://git@github.com:ostera/idris-tap.git
 version = 0.1
 
-modules = TAP
+modules = Draft
+
+main = Draft
+executable = draft
