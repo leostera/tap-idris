@@ -10,3 +10,6 @@ sourceloc  = git://git@github.com:ostera/idris-tap.git
 version = 0.1
 
 modules = TAP
+
+main = Draft
+executable = draft
