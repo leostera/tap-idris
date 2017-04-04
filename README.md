@@ -55,7 +55,7 @@ TAP version 13
 ok 1
 ```
 
-### Why `Lazy (IO Bool)`
+#### Why `Lazy (IO Bool)`
 
 I figured that some tests might want to perform some side-effects (reading a
 fixture file sounds like the most likely scenario) and if I didn't include the
