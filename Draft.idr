@@ -27,7 +27,7 @@ run state@(MkState (S n) _ _ _)  =
      let parts = split (== ' ') line
      case parts of
           ["ok", _] => run (record { ok $= (+1), count = n } state)
-          ["not, ok", _] => run (record { not_ok $= (+1), count = n } state)
+          ["not", "ok", _] => run (record { not_ok $= (+1), count = n } state)
           _ => pure state
 
 report : State -> IO ()
