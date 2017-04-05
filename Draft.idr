@@ -1,50 +1,72 @@
 module Main
 
+%default total
+
+data Status : Type where
+  Running : Status
+  Done : Status
+
+countToStatus : Nat -> Status
+countToStatus Z = Done
+countToStatus (S k) = Running
+
 record State where
   constructor MkState
+  status : Status
   count, ok, skipped, not_ok : Nat
 
-parseNum : String -> Maybe Integer
-parseNum "" = Nothing
-parseNum s = let
-    weights = (take (length s) (iterate (*10) 1))
-    values = map fromChar (reverse (unpack s))
-    pairs = zip values weights
-    prods = map multiplyPair pairs
-  in
-    Just (foldr (+) 0 prods)
+InitialState : State
+InitialState = MkState Running 0 0 0 0
+
+parseNum : List Char -> Maybe Nat
+parseNum [] = Nothing
+parseNum cs = case and (map (Delay . isDigit) cs) of
+                  True => Just (parseNum' cs)
+                  False => Nothing
   where
-    fromChar : Char -> Integer
-    fromChar c = ((toIntegerNat . toNat) c) - 48
+    parseNum' : List Char -> Nat
+    parseNum' [] = 0
+    parseNum' s = let
+        weights = (take (length s) (iterate (*10) 1))
+        values = map fromChar (reverse s)
+        pairs = zip values weights
+        prods = map multiplyPair pairs
+      in
+        toNat (foldr (+) 0 prods)
+      where
+        fromChar : Char -> Integer
+        fromChar c = ((toIntegerNat . toNat) c) - 48
 
-    multiplyPair : (Integer, Integer) -> Integer
-    multiplyPair (a, b) = a*b
+        multiplyPair : (Integer, Integer) -> Integer
+        multiplyPair (a, b) = a*b
 
-run : State -> IO (State)
-run state@(MkState Z ok skipped failed) = pure state
-run state@(MkState (S n) _ _ _)  =
-  do line <- getLine
-     let parts = split (== ' ') line
-     putStr "."
-     case parts of
-          ["ok", _] => run (record { ok $= (+1), count = n } state)
-          ["not", "ok", _] => run (record { not_ok $= (+1), count = n } state)
-          _ => pure state
+parsePlan : List Char -> Maybe Nat
+parsePlan ( from :: _ :: _ :: to ) = parseNum to
+parsePlan _ = Nothing
+
+run : List String -> State -> State
+run ("ok" :: desc) state@(MkState Running (S n) _ _ _) =
+  record { ok $= (+1), count = n, status = (countToStatus n) } state
+
+run ("not" :: "ok" :: desc) state@(MkState Running (S n) _ _ _) =
+  record { not_ok $= (+1), count = n, status = (countToStatus n) } state
+
+run (x :: []) state = case parsePlan (unpack x) of
+                           Just n => record { count = n } state
+                           Nothing => state
+run _ state = state
 
 report : State -> IO ()
-report (MkState count ok skipped not_ok) =
+report (MkState _ count ok skipped not_ok) =
   do putStrLn ("# ok " ++ (show ok))
      putStrLn ("# not ok " ++ (show not_ok))
 
+partial
+loop : State -> IO ()
+loop state@(MkState Done _ _ _ _) = report state
+loop state = do line <- getLine
+                loop (run (words line) state)
+
+partial
 main : IO ()
-main = do version <- getLine
-          description <- getLine
-          plan <- getLine
-          let count = (parseNum . pack . (drop 3) . unpack) plan
-          case count of
-               Nothing => pure ()
-               Just c => case c > -1 of
-                 False => pure ()
-                 True => do results <- run (MkState (cast c) 0 0 0)
-                            putStrLn ""
-                            report results
+main = loop InitialState
