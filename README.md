@@ -51,8 +51,9 @@ And you should see an output like:
 ```
 ostera λ make test
 TAP version 13
-1..1
+1..2
 ok 1
+not ok 2
 ```
 
 #### Why `Lazy (IO Bool)`
@@ -73,9 +74,11 @@ ostera λ make test | draft
 ...
 # ok 2
 # not ok 1
+# skipped 0
+# summary 2/3 tests, 67% okay
 ```
 
-It's extremely simple (and will only work with the output from this producer library) but it gives me something to work with for the time being.
+It's extremely simple but it gives me something to work with for the time being.
 
 ## Specification
 
@@ -96,6 +99,6 @@ interesting reports, such as:
 
 - [x] `# ok 4`
 - [x] `# not ok 1`
-- [ ] `# skipped 0`
+- [X] `# skipped 0`
 - [ ] `# todo 0`
-- [ ] `# summary 1/5 tests, 80.00% okay`
+- [X] `# summary 1/5 tests, 80.00% okay`
