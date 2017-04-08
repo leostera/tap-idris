@@ -9,6 +9,8 @@ readme = ./README.md
 sourceloc  = git://git@github.com:ostera/idris-tap.git
 version = 0.1
 
+pkgs = effects
+
 modules = Draft
         , CLI
 

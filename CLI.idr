@@ -1,5 +1,8 @@
 module CLI
 
+import Effects
+import Effect.System
+
 %default total
 
 interface Parseable a where
@@ -44,6 +47,9 @@ parseArgs s xs = map (parseArg s) xs where
   parseArg : String -> Argument -> Result
   parseArg s (MkArg sn ln d { argType }) = MkResult (the argType (parse s))
 
+partial
+cli : Eff (List Result) [SYSTEM]
+cli = do args <- getArgs
 
 -- sample
 
